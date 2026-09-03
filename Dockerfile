@@ -46,13 +46,29 @@ RUN mkdir -p /root/.kaggle \
         > /root/.kaggle/kaggle.json \
  && chmod 600 /root/.kaggle/kaggle.json
 
-# Download the dataset. Replace <username>/anime-assistant-gpt-model with your
-# actual Kaggle dataset slug (owner/dataset-name).
-# --unzip extracts the files into /artefacts/.
+# Download and unzip the dataset into /kaggle_download/.
+# Then explicitly find both artefacts (regardless of subdirectory structure
+# the zip may produce) and copy them to /artefacts/ with the exact names the
+# app expects. Finally verify both files are valid before proceeding.
 RUN kaggle datasets download \
         --dataset "${KAGGLE_USERNAME}/anime-assistant-gpt-model" \
         --unzip \
-        --path /artefacts
+        --path /kaggle_download \
+ && mkdir -p /artefacts \
+ && find /kaggle_download -name "assistant_gpt_model.keras"      -exec cp {} /artefacts/assistant_gpt_model.keras      \; \
+ && find /kaggle_download -name "assistant_bpe_tokenizer.json"   -exec cp {} /artefacts/assistant_bpe_tokenizer.json   \; \
+ && echo "=== Artefact sizes ===" \
+ && ls -lh /artefacts/ \
+ && python3 -c "
+import json, sys
+# Validate tokenizer JSON is a real HuggingFace tokenizer
+with open('/artefacts/assistant_bpe_tokenizer.json') as f:
+    data = json.load(f)
+assert 'model' in data, 'tokenizer JSON missing model key'
+assert data.get('version'), 'tokenizer JSON missing version key'
+print('tokenizer OK — vocab size:', len(data['model'].get('vocab', {})))
+" \
+ && rm -rf /kaggle_download
 
 # Wipe credentials immediately after download — belt and braces.
 RUN rm -rf /root/.kaggle
