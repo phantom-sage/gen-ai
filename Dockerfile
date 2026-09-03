@@ -34,43 +34,29 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN pip install --no-cache-dir kaggle==1.6.17
 
 # ── Download model artefacts from Kaggle ──────────────────────────────────────
-# KAGGLE_USERNAME and KAGGLE_KEY are passed as build-args from GitHub Actions
-# (stored as GitHub secrets). They are only present in this builder stage and
-# never baked into the final runtime image.
 ARG KAGGLE_USERNAME
 ARG KAGGLE_KEY
 
-# The Kaggle CLI reads credentials from ~/.kaggle/kaggle.json.
 RUN mkdir -p /root/.kaggle \
  && printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" \
         > /root/.kaggle/kaggle.json \
  && chmod 600 /root/.kaggle/kaggle.json
 
-# Download and unzip the dataset into /kaggle_download/.
-# Then explicitly find both artefacts (regardless of subdirectory structure
-# the zip may produce) and copy them to /artefacts/ with the exact names the
-# app expects. Finally verify both files are valid before proceeding.
+# Copy the validation script before it is needed.
+COPY validate_tokenizer.py /tmp/validate_tokenizer.py
+
 RUN kaggle datasets download \
         --dataset "${KAGGLE_USERNAME}/anime-assistant-gpt-model" \
         --unzip \
         --path /kaggle_download \
  && mkdir -p /artefacts \
- && find /kaggle_download -name "assistant_gpt_model.keras"      -exec cp {} /artefacts/assistant_gpt_model.keras      \; \
- && find /kaggle_download -name "assistant_bpe_tokenizer.json"   -exec cp {} /artefacts/assistant_bpe_tokenizer.json   \; \
+ && find /kaggle_download -name "assistant_gpt_model.keras"    -exec cp {} /artefacts/assistant_gpt_model.keras    \; \
+ && find /kaggle_download -name "assistant_bpe_tokenizer.json" -exec cp {} /artefacts/assistant_bpe_tokenizer.json \; \
  && echo "=== Artefact sizes ===" \
  && ls -lh /artefacts/ \
- && python3 -c "
-import json, sys
-# Validate tokenizer JSON is a real HuggingFace tokenizer
-with open('/artefacts/assistant_bpe_tokenizer.json') as f:
-    data = json.load(f)
-assert 'model' in data, 'tokenizer JSON missing model key'
-assert data.get('version'), 'tokenizer JSON missing version key'
-print('tokenizer OK — vocab size:', len(data['model'].get('vocab', {})))
-" \
- && rm -rf /kaggle_download
+ && python3 /tmp/validate_tokenizer.py \
+ && rm -rf /kaggle_download /tmp/validate_tokenizer.py
 
-# Wipe credentials immediately after download — belt and braces.
 RUN rm -rf /root/.kaggle
 
 
