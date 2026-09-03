@@ -36,14 +36,24 @@ RUN cat > /tmp/validate_tokenizer.py << 'PYEOF'
 import json, sys
 with open('/artefacts/assistant_bpe_tokenizer.json') as f:
     data = json.load(f)
-assert 'model' in data, 'tokenizer JSON missing model key'
-assert data.get('version'), 'tokenizer JSON missing version key'
-print('tokenizer OK — vocab size:', len(data['model'].get('vocab', {})))
+# A real HuggingFace BPE tokenizer must have these exact keys
+for key in ('version', 'truncation', 'padding', 'added_tokens', 'normalizer',
+            'pre_tokenizer', 'post_processor', 'decoder', 'model'):
+    if key not in data:
+        print(f'ERROR: tokenizer JSON missing required key: {key}', file=sys.stderr)
+        print(f'File starts with: {str(data)[:300]}', file=sys.stderr)
+        sys.exit(1)
+if data['model'].get('type') != 'BPE':
+    print(f'ERROR: expected BPE model, got: {data["model"].get("type")}', file=sys.stderr)
+    sys.exit(1)
+vocab_size = len(data['model'].get('vocab', {}))
+if vocab_size < 100:
+    print(f'ERROR: vocab too small ({vocab_size}), likely wrong file', file=sys.stderr)
+    sys.exit(1)
+print(f'tokenizer OK — type=BPE vocab_size={vocab_size}')
 PYEOF
 
 # ── Download model artefacts from Kaggle ──────────────────────────────────────
-# KAGGLE_USERNAME and KAGGLE_KEY are passed as --build-arg from GitHub Actions.
-# They exist only in this builder stage and are wiped before stage 2 starts.
 ARG KAGGLE_USERNAME
 ARG KAGGLE_KEY
 
@@ -55,6 +65,8 @@ RUN mkdir -p /root/.kaggle \
         --dataset "${KAGGLE_USERNAME}/anime-assistant-gpt-model" \
         --unzip \
         --path /kaggle_download \
+ && echo "=== All files in download ===" \
+ && find /kaggle_download -type f \
  && mkdir -p /artefacts \
  && find /kaggle_download -name "assistant_gpt_model.keras"    -exec cp {} /artefacts/assistant_gpt_model.keras    \; \
  && find /kaggle_download -name "assistant_bpe_tokenizer.json" -exec cp {} /artefacts/assistant_bpe_tokenizer.json \; \
