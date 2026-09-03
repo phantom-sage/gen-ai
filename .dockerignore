@@ -43,6 +43,3 @@ Thumbs.db
 # ── Docs & markdown ───────────────────────────────────────────────────────────
 *.md
 LICENSE
-
-# ── Build helpers (builder stage only, not needed at runtime) ─────────────────
-validate_tokenizer.py
