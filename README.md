@@ -1,6 +1,6 @@
-# Assistant GPT
+# Anime Assistant GPT
 
-A from-scratch GPT-style chatbot trained on custom data and served as a web application via Flask. The model is built with TensorFlow/Keras, uses a custom BPE tokenizer, and is packaged as a multi-architecture Docker image.
+A from-scratch GPT-style chatbot trained on anime knowledge data and served as a web application via Flask. The model is built with TensorFlow/Keras, uses a custom BPE tokenizer, and is packaged as a multi-architecture Docker image.
 
 ---
 
@@ -21,13 +21,14 @@ A from-scratch GPT-style chatbot trained on custom data and served as a web appl
 
 ## Overview
 
-Assistant GPT is a lightweight conversational AI assistant. It exposes a browser-based chat UI and a JSON REST API. The model handles multi-turn conversations by maintaining a rolling context window and uses nucleus (top-p) sampling for diverse, coherent responses.
+Anime Assistant GPT is a lightweight conversational AI assistant specialising in anime knowledge. It exposes a browser-based chat UI and a JSON REST API. The model handles multi-turn conversations by maintaining a rolling context window and uses nucleus (top-p) sampling for diverse, coherent responses.
 
 **Stack:**
 
 | Layer | Technology |
 |---|---|
 | Model | Custom GPT (TensorFlow 2 / Keras) |
+| Training data | [kurumikz/animepedia](https://huggingface.co/datasets/kurumikz/animepedia) — 20k+ anime Q&A pairs |
 | Tokenizer | HuggingFace `tokenizers` — BPE |
 | Web server | Flask 3 + Gunicorn |
 | Container | Docker (linux/amd64, linux/arm64) |

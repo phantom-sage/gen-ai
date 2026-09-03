@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assistant GPT</title>
+  <title>Anime Assistant GPT</title>
   <style>
     /* ── Reset & base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -290,9 +290,9 @@
   <!-- Header -->
   <header>
     <div class="logo">
-      <div class="logo-icon">🤖</div>
-      <span>Assistant GPT</span>
-      <span class="badge">local</span>
+      <div class="logo-icon">🎌</div>
+      <span>Anime Assistant GPT</span>
+      <span class="badge">animepedia</span>
     </div>
     <button id="btn-reset" title="Start a new conversation">New chat</button>
   </header>
@@ -300,8 +300,8 @@
   <!-- Messages -->
   <div id="messages">
     <div id="empty-state">
-      <div class="icon">💬</div>
-      <p>Send a message to start chatting with your assistant.</p>
+      <div class="icon">🎌</div>
+      <p>Ask me anything about anime — characters, series, genres, and more.</p>
     </div>
   </div>
 
@@ -330,7 +330,7 @@
     </div>
 
     <div class="input-row">
-      <textarea id="input" rows="1" placeholder="Message the assistant…"
+      <textarea id="input" rows="1" placeholder="Ask about an anime, character, or genre…"
                 aria-label="Message input"></textarea>
       <button id="btn-send" aria-label="Send message">
         <!-- Send arrow icon -->
@@ -483,8 +483,8 @@
       history = [];
       messagesEl.innerHTML = `
         <div id="empty-state">
-          <div class="icon">💬</div>
-          <p>Send a message to start chatting with your assistant.</p>
+          <div class="icon">🎌</div>
+          <p>Ask me anything about anime — characters, series, genres, and more.</p>
         </div>`;
 
       try {
