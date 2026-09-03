@@ -148,12 +148,12 @@ Clears the server-side session history for the current user.
 docker pull phantomsage219/gen-ai:1.0.0
 
 # Run the container
-docker run -p 5000:5000 \
+docker run -p 8080:8080 \
   -e SESSION_SECRET=your-secret-key \
   phantomsage219/gen-ai:1.0.0
 ```
 
-Open [http://localhost:5000](http://localhost:5000) in your browser.
+Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ---
 
@@ -177,7 +177,7 @@ python app.py
 For a production-like setup with Gunicorn:
 
 ```bash
-gunicorn --workers 4 --timeout 120 --bind 0.0.0.0:5000 app:app
+gunicorn --workers 4 --timeout 120 --bind 0.0.0.0:8080 app:app
 ```
 
 ---

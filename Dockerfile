@@ -73,18 +73,18 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Expose the port Gunicorn will listen on.
-EXPOSE 5000
+EXPOSE 8080
 
 # ── Entrypoint ────────────────────────────────────────────────────────────────
 # Gunicorn with:
 #   -w 4        → 4 worker processes (one loads the model per worker; tune to
 #                 your RAM — TF model is ~200 MB, so 4 × ~200 MB ≈ 800 MB)
 #   --timeout 120 → allow up to 2 minutes for inference before killing the worker
-#   -b 0.0.0.0:5000 → bind to all interfaces on port 5000
+#   -b 0.0.0.0:8080 → bind to all interfaces on port 8080
 CMD ["gunicorn", \
      "--workers", "4", \
      "--timeout", "120", \
-     "--bind", "0.0.0.0:5000", \
+     "--bind", "0.0.0.0:8080", \
      "--access-logfile", "-", \
      "--error-logfile", "-", \
      "app:app"]
