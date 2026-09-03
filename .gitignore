@@ -22,7 +22,9 @@ ENV/
 
 # ── Trained model artefacts ───────────────────────────────────────────────────
 # Large binary files — store in cloud storage or DVC instead.
+# The two runtime artefacts (model + tokenizer) are explicitly allowed below.
 *.keras
+!assistant_gpt_model.keras
 *.h5
 *.pb
 *.tflite
@@ -33,7 +35,7 @@ checkpoint/
 
 # ── Tokenizer / vocab artefacts ───────────────────────────────────────────────
 *.json
-!requirements*.json   # keep any dependency-related json if needed
+!assistant_bpe_tokenizer.json
 
 # ── Training data ─────────────────────────────────────────────────────────────
 assistant-data/
