@@ -1,0 +1,17 @@
+# ── Core model stack ──────────────────────────────────────────────────────────
+# TensorFlow 2.15 is the last version that ships pre-built wheels for
+# python:3.11-slim on linux/amd64 and linux/arm64.
+tensorflow==2.15.1
+
+# HuggingFace tokenizers — BPE tokenizer used by the model
+tokenizers==0.15.2
+
+# Numerical computing (TF pulls this in, pin for reproducibility)
+numpy==1.26.4
+
+# ── Web server ────────────────────────────────────────────────────────────────
+Flask==3.0.3
+gunicorn==21.2.0
+
+# ── Indirect deps that we pin for reproducibility ─────────────────────────────
+Werkzeug==3.0.3

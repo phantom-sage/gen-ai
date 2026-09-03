@@ -1,0 +1,45 @@
+# ── Version control ───────────────────────────────────────────────────────────
+.git
+.gitignore
+.gitattributes
+
+# ── Python artefacts ─────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Jupyter / IPython ────────────────────────────────────────────────────────
+*.ipynb
+.ipynb_checkpoints/
+
+# ── Training data & checkpoints ──────────────────────────────────────────────
+# These are large and not needed at runtime.
+assistant-data/
+*.parquet
+assistant_gpt_last.keras
+assistant_gpt_checkpoint*.keras
+
+# ── Editor & OS artefacts ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ── Docs & markdown ───────────────────────────────────────────────────────────
+*.md
+LICENSE

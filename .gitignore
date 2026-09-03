@@ -1,0 +1,73 @@
+# ── Python artefacts ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# ── Jupyter / IPython ─────────────────────────────────────────────────────────
+*.ipynb
+.ipynb_checkpoints/
+
+# ── Trained model artefacts ───────────────────────────────────────────────────
+# Large binary files — store in cloud storage or DVC instead.
+*.keras
+*.h5
+*.pb
+*.tflite
+*.ckpt
+*.ckpt.*
+saved_model/
+checkpoint/
+
+# ── Tokenizer / vocab artefacts ───────────────────────────────────────────────
+*.json
+!requirements*.json   # keep any dependency-related json if needed
+
+# ── Training data ─────────────────────────────────────────────────────────────
+assistant-data/
+*.parquet
+*.csv
+*.tsv
+datasets/
+
+# ── Logs & profiling ──────────────────────────────────────────────────────────
+logs/
+*.log
+tensorboard/
+runs/
+
+# ── OS & editor artefacts ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+# Keep Dockerfile and .dockerignore tracked; ignore local overrides.
+docker-compose.override.yml
+
+# ── Secrets & environment files ───────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
