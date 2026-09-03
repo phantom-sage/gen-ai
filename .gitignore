@@ -42,6 +42,11 @@ assistant-data/
 *.tsv
 datasets/
 
+# ── Markdown ──────────────────────────────────────────────────────────────────
+# Ignore all markdown except the project README.
+*.md
+!README.md
+
 # ── Logs & profiling ──────────────────────────────────────────────────────────
 logs/
 *.log
