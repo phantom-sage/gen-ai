@@ -21,10 +21,8 @@ ENV/
 .ipynb_checkpoints/
 
 # ── Trained model artefacts ───────────────────────────────────────────────────
-# Large binary files — store in cloud storage or DVC instead.
-# The two runtime artefacts (model + tokenizer) are explicitly allowed below.
+# Downloaded from Kaggle at Docker build time — never committed to the repo.
 *.keras
-!assistant_gpt_model.keras
 *.h5
 *.pb
 *.tflite
@@ -34,8 +32,8 @@ saved_model/
 checkpoint/
 
 # ── Tokenizer / vocab artefacts ───────────────────────────────────────────────
+# Also downloaded from Kaggle at Docker build time.
 *.json
-!assistant_bpe_tokenizer.json
 
 # ── Training data ─────────────────────────────────────────────────────────────
 assistant-data/
